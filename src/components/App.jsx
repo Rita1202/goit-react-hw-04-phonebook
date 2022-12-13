@@ -16,6 +16,15 @@ export const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
+  useEffect(() => {
+    if (filter) {
+      const filtered = filter.toLowerCase();
+      setContacts(prev => {
+        return prev.filter(el => el.name.toLowerCase().includes(filtered));
+      });
+    }
+  }, [filter]);
+
   const handleChange = e => {
     setFilter(e.target.value);
   };
@@ -47,11 +56,7 @@ export const App = () => {
 
       <h2 className="contacts">Contacts</h2>
       <Filter handleChange={handleChange} filter={filter} contacts={contacts} />
-      <ContactList
-        contacts={contacts}
-        filter={filter}
-        deleteUser={deleteUser}
-      />
+      <ContactList contacts={contacts} deleteUser={deleteUser} />
     </div>
   );
 };
